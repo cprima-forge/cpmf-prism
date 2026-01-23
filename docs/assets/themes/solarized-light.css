@@ -1,0 +1,68 @@
+/* Solarized Light Theme */
+:root {
+  /* Base colors (Solarized) */
+  --base03:  #002b36;
+  --base02:  #073642;
+  --base01:  #586e75;
+  --base00:  #657b83;
+  --base0:   #839496;
+  --base1:   #93a1a1;
+  --base2:   #eee8d5;
+  --base3:   #fdf6e3;
+
+  /* Accent colors (Solarized) */
+  --yellow:  #b58900;
+  --orange:  #cb4b16;
+  --red:     #dc322f;
+  --magenta: #d33682;
+  --violet:  #6c71c4;
+  --blue:    #268bd2;
+  --cyan:    #2aa198;
+  --green:   #859900;
+
+  /* Theme mappings */
+  --bg-primary: var(--base3);
+  --bg-secondary: var(--base2);
+  --bg-tertiary: #ddd6c3;
+  --bg-header: var(--orange);
+  --text-header: var(--base3);
+  --bg-code: var(--base2);
+  --bg-input: var(--base3);
+  --bg-button: var(--base2);
+  --bg-button-hover: #ddd6c3;
+  --bg-tab: var(--base2);
+  --bg-hover: rgba(0, 0, 0, 0.05);
+  --bg-active: rgba(38, 139, 210, 0.15);
+  --bg-drop-active: rgba(253, 246, 227, 0.95);
+  --bg-drop-highlight: rgba(38, 139, 210, 0.1);
+
+  --text-primary: var(--base00);
+  --text-secondary: var(--base1);
+  --text-accent: var(--blue);
+  --text-on-accent: var(--base3);
+
+  --border-color: #d3cbb7;
+
+  --accent-primary: var(--blue);
+  --accent-primary-hover: #1a6fad;
+
+  --status-green: var(--green);
+  --status-yellow: var(--yellow);
+  --status-red: var(--red);
+
+  --badge-bg: var(--base2);
+  --badge-text: var(--base01);
+
+  --danger-bg: rgba(220, 50, 47, 0.1);
+  --danger-text: var(--red);
+  --danger-border: var(--red);
+  --danger-bg-hover: rgba(220, 50, 47, 0.2);
+
+  --highlight-bg: var(--yellow);
+  --highlight-text: var(--base3);
+
+  /* Syntax highlighting */
+  --syntax-tag: var(--blue);
+  --syntax-attr: var(--cyan);
+  --syntax-value: var(--green);
+}

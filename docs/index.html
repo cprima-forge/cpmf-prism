@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data: blob:;">
+  <title>rpax prism</title>
+  <link rel="stylesheet" href="assets/app.css">
+  <link rel="stylesheet" href="assets/themes/solarized-light.css" id="theme-stylesheet">
+  <link rel="stylesheet" href="assets/print.css" media="print">
+</head>
+<body>
+  <header class="app-header">
+    <h1 class="app-title">rpax prism</h1>
+    <div class="header-controls">
+      <select id="theme-switcher" class="theme-select">
+        <option value="solarized-light">Solarized Light</option>
+        <option value="solarized-dark">Solarized Dark</option>
+        <option value="work">Work</option>
+      </select>
+      <button id="import-btn" class="btn btn-primary">Import Pack</button>
+    </div>
+  </header>
+
+  <nav class="tab-bar" id="tab-bar">
+    <!-- Dynamic tabs inserted here -->
+  </nav>
+
+  <main class="main-content">
+    <aside class="sidebar" id="sidebar">
+      <div class="import-manager">
+        <h3>Imports</h3>
+        <ul id="import-list" class="import-list">
+          <!-- Dynamic import list -->
+        </ul>
+      </div>
+      <div class="dataset-list-container">
+        <h3>Datasets</h3>
+        <ul id="dataset-list" class="dataset-list">
+          <!-- Dynamic dataset list -->
+        </ul>
+      </div>
+    </aside>
+
+    <div class="content-area">
+      <section class="left-panel" id="left-panel">
+        <div class="search-bar">
+          <input type="search" id="search-input" placeholder="Search..." class="search-input">
+          <div class="filter-toggles">
+            <label><input type="checkbox" id="filter-has-variables"> With variables</label>
+            <label><input type="checkbox" id="filter-no-variables"> Without variables</label>
+            <label><input type="checkbox" id="filter-has-image"> Has image</label>
+            <label><input type="checkbox" id="filter-has-cv"> Has CV</label>
+          </div>
+        </div>
+        <div class="tree-toolbar">
+          <button id="collapse-all" class="btn btn-small">Collapse All</button>
+          <button id="expand-depth" class="btn btn-small">Expand to Depth...</button>
+        </div>
+        <div class="tree-container" id="tree-container">
+          <!-- Tree view rendered here -->
+        </div>
+      </section>
+
+      <section class="right-panel" id="right-panel">
+        <div class="panel-tabs">
+          <button class="panel-tab active" data-panel="detail">Detail</button>
+          <button class="panel-tab" data-panel="hierarchy">Hierarchy</button>
+          <button class="panel-tab" data-panel="dashboard">Dashboard</button>
+        </div>
+        <div class="detail-panel" id="detail-panel">
+          <div class="detail-header">
+            <h2 id="detail-title">Select an element</h2>
+            <button id="export-pdf" class="btn btn-small" disabled>Export PDF</button>
+          </div>
+          <div class="detail-content" id="detail-content">
+            <!-- Element details rendered here -->
+          </div>
+        </div>
+        <div class="hierarchy-panel hidden" id="hierarchy-panel">
+          <div class="hierarchy-header">
+            <h2 id="hierarchy-title">Select an element</h2>
+          </div>
+          <div class="hierarchy-content" id="hierarchy-content">
+            <!-- Hierarchy tree rendered here -->
+          </div>
+        </div>
+        <div class="dashboard-panel hidden" id="dashboard-panel">
+          <!-- Dashboard stats rendered here -->
+        </div>
+      </section>
+    </div>
+
+    <div class="drop-zone hidden" id="drop-zone">
+      <div class="drop-zone-content">
+        <p>Drop .zip pack here</p>
+        <p class="drop-zone-hint">or click to select file</p>
+      </div>
+      <input type="file" id="file-input" accept=".zip" class="hidden">
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <button id="delete-all" class="btn btn-danger">Delete All Data</button>
+    <span class="footer-info">Data stored locally only</span>
+  </footer>
+
+  <!-- JSZip library for ZIP file handling -->
+  <script src="vendor/jszip.min.js"></script>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

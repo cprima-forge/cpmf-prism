@@ -1,0 +1,72 @@
+/* Work Theme - Corporate Neutral */
+:root {
+  /* Neutral grays */
+  --gray-50:  #fafafa;
+  --gray-100: #f5f5f5;
+  --gray-200: #e5e5e5;
+  --gray-300: #d4d4d4;
+  --gray-400: #a3a3a3;
+  --gray-500: #737373;
+  --gray-600: #525252;
+  --gray-700: #404040;
+  --gray-800: #262626;
+  --gray-900: #171717;
+
+  /* Accent - subtle blue */
+  --blue-50:  #eff6ff;
+  --blue-100: #dbeafe;
+  --blue-500: #3b82f6;
+  --blue-600: #2563eb;
+  --blue-700: #1d4ed8;
+
+  /* Status colors */
+  --green-500: #22c55e;
+  --yellow-500: #eab308;
+  --red-500: #ef4444;
+
+  /* Theme mappings */
+  --bg-primary: #ffffff;
+  --bg-secondary: var(--gray-50);
+  --bg-tertiary: var(--gray-100);
+  --bg-header: #ffffff;
+  --text-header: var(--gray-800);
+  --bg-code: var(--gray-100);
+  --bg-input: #ffffff;
+  --bg-button: var(--gray-100);
+  --bg-button-hover: var(--gray-200);
+  --bg-tab: var(--gray-100);
+  --bg-hover: var(--gray-100);
+  --bg-active: var(--blue-50);
+  --bg-drop-active: rgba(255, 255, 255, 0.98);
+  --bg-drop-highlight: var(--blue-50);
+
+  --text-primary: var(--gray-800);
+  --text-secondary: var(--gray-500);
+  --text-accent: var(--blue-600);
+  --text-on-accent: #ffffff;
+
+  --border-color: var(--gray-200);
+
+  --accent-primary: var(--blue-500);
+  --accent-primary-hover: var(--blue-600);
+
+  --status-green: var(--green-500);
+  --status-yellow: var(--yellow-500);
+  --status-red: var(--red-500);
+
+  --badge-bg: var(--gray-100);
+  --badge-text: var(--gray-600);
+
+  --danger-bg: #fef2f2;
+  --danger-text: var(--red-500);
+  --danger-border: #fecaca;
+  --danger-bg-hover: #fee2e2;
+
+  --highlight-bg: #fef08a;
+  --highlight-text: var(--gray-900);
+
+  /* Syntax highlighting */
+  --syntax-tag: var(--blue-600);
+  --syntax-attr: #0891b2;
+  --syntax-value: #16a34a;
+}
