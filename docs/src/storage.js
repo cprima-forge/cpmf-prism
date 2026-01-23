@@ -327,11 +327,9 @@ function buildSearchIndex(payload, type) {
         });
       } else if (entry.type === 'element') {
         index.elementCount++;
-        const variables = [
-          ...normalizeVariables(entry[FIELDS.element.declaredVariables]),
-          ...normalizeVariables(entry[FIELDS.element.scopeVariables]),
-          ...normalizeVariables(entry[FIELDS.element.selectorVariables])
-        ];
+        // Only count declared_variables as actual variables for filtering
+        // scope_variables and selector_variables are expressions, not variables
+        const variables = normalizeVariables(entry[FIELDS.element.declaredVariables]);
         index.searchIndex.push({
           type: 'element',
           name: entry[FIELDS.element.name],

@@ -189,10 +189,10 @@ function runSearch(query) {
   // Highlight matches and filter tree
   if (hasActiveFilter) {
     highlightMatches(results);
-    filterTree(results);
+    filterTree(results, true);  // Pass true to indicate filter is active
   } else {
     // Clear filter - show all nodes
-    filterTree([]);
+    filterTree([], false);
   }
 
   // Callback with results
@@ -218,15 +218,19 @@ function updateResultCount(count, total) {
 /**
  * Filter tree nodes visibility
  * Due to lazy loading, we need to expand all nodes first to make filtering work
+ * @param {Array} matches - Matching entries
+ * @param {boolean} isFilterActive - Whether any filter is active (even if 0 results)
  */
-export function filterTree(matches) {
+export function filterTree(matches, isFilterActive = false) {
   if (!treeContainer) return;
 
   const matchRefs = new Set(matches.map(m => m.reference));
-  const hasActiveFilter = matchRefs.size > 0 || searchInput?.value;
+
+  // Check if we should filter: either explicit flag or infer from matches/search
+  const shouldFilter = isFilterActive || matchRefs.size > 0 || searchInput?.value;
 
   // Show all if no active filter
-  if (!hasActiveFilter) {
+  if (!shouldFilter) {
     treeContainer.querySelectorAll('.tree-node').forEach(node => {
       node.style.display = '';
     });
