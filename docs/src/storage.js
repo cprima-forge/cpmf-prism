@@ -322,6 +322,7 @@ function buildSearchIndex(payload, type) {
           name: entry[FIELDS.screen.name],
           reference: entry[FIELDS.screen.reference],
           url: entry[FIELDS.screen.url],
+          selector: entry[FIELDS.screen.selector],
           variables,
           path: entry[FIELDS.screen.path]
         });
@@ -337,6 +338,8 @@ function buildSearchIndex(payload, type) {
           elementType: entry[FIELDS.element.elementType],
           hasImage: entry[FIELDS.element.hasImage],
           hasCv: entry[FIELDS.element.hasCv],
+          fullSelector: entry[FIELDS.element.fullSelector],
+          scopeSelector: entry[FIELDS.element.scopeSelector],
           variables
         });
       }

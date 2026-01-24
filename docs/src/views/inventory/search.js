@@ -150,6 +150,24 @@ function runSearch(query) {
       if (entry.url?.toLowerCase().includes(normalizedQuery)) {
         matches = true;
       }
+      // Search in selectors
+      if (entry.selector?.toLowerCase().includes(normalizedQuery)) {
+        matches = true;
+      }
+      if (entry.fullSelector?.toLowerCase().includes(normalizedQuery)) {
+        matches = true;
+      }
+      if (entry.scopeSelector?.toLowerCase().includes(normalizedQuery)) {
+        matches = true;
+      }
+      // Search in reference
+      if (entry.reference?.toLowerCase().includes(normalizedQuery)) {
+        matches = true;
+      }
+      // Search in path
+      if (entry.path?.toLowerCase().includes(normalizedQuery)) {
+        matches = true;
+      }
     } else {
       // No text query, start with all entries
       matches = true;
