@@ -2,7 +2,7 @@
   "name": "cpmf-prism-helloworld",
   "displayName": "CPMF Prism Hello World",
   "description": "Spike extension to validate publish pipeline end-to-end",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "cpmforge",
   "preview": true,
   "engines": {
@@ -19,5 +19,9 @@
       }
     ]
   },
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cprima-forge/cpmf-prism.git"
+  }
 }
