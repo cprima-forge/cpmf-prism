@@ -1,0 +1,23 @@
+{
+  "name": "cpmf-prism-helloworld",
+  "displayName": "CPMF Prism Hello World",
+  "description": "Spike extension to validate publish pipeline end-to-end",
+  "version": "0.1.0",
+  "publisher": "cpmforge",
+  "preview": true,
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": [],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "cpmf-prism-helloworld.helloWorld",
+        "title": "Hello World (CPMF Prism spike)"
+      }
+    ]
+  },
+  "license": "MIT"
+}

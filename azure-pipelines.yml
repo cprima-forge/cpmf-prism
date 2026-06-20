@@ -4,11 +4,16 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- script: |
+    npm install -g @vscode/vsce
+  displayName: 'Install vsce'
+
 - task: AzureCLI@2
-  displayName: 'Get identity details'
+  displayName: 'Publish using managed identity'
   inputs:
     azureSubscription: marketplace-publish
     scriptType: pscore
     scriptLocation: inlineScript
     inlineScript: |
-      az rest -u https://app.vssps.visualstudio.com/_apis/profile/profiles/me --resource 499b84ac-1321-427f-aa17-267ca6975798
+      cd $(Build.SourcesDirectory)/src/spike/helloworld
+      vsce publish --azure-credential
