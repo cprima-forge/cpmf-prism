@@ -1,0 +1,9 @@
+[project]
+name = "cpmf-prism"
+version = "0.1.0"
+description = "Tools for the CPMF Prism VS Code extension"
+requires-python = ">=3.11"
+dependencies = []
+
+[dependency-groups]
+dev = []
