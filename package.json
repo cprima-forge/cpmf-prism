@@ -1,0 +1,9 @@
+{
+  "name": "cpmf-prism",
+  "private": true,
+  "devDependencies": {
+    "@vscode/vsce": "^3.0.0",
+    "eslint": "^9.0.0",
+    "markdownlint-cli2": "^0.17.0"
+  }
+}

@@ -10,4 +10,5 @@ dev = [
     "azure-devops>=7.1.0b4",
     "azure-identity>=1.25.3",
     "python-dotenv>=1.2.2",
+    "ruff>=0.9.0",
 ]
