@@ -37,6 +37,12 @@ keygen-create-apply:
 keygen-markdown:
     uv run python tools/keygen_client.py markdown
 
+test:
+    cd packages/license && node node_modules/vitest/vitest.mjs run
+
+test-watch:
+    cd packages/license && node node_modules/vitest/vitest.mjs
+
 lint: lint-py lint-js lint-md
 
 lint-py:

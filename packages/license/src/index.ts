@@ -1,5 +1,7 @@
 // Null-op license stub. Replace with keygen.sh implementation from src/spike/keygen/ when ready.
 
+export { requireEntitlement } from './guard';
+
 export interface ValidationResult {
     valid: boolean;
     code: string;
