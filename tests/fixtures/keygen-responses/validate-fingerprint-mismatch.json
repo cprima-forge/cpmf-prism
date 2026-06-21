@@ -1,0 +1,21 @@
+{
+  "_description": "License valid but machine fingerprint doesn't match — code=FINGERPRINT_SCOPE_MISMATCH",
+  "_http_status": 200,
+  "data": {
+    "id": "a1b2c3d4-0000-4000-8000-000000000004",
+    "type": "licenses",
+    "attributes": {
+      "expiry": "2027-06-21T00:00:00.000Z",
+      "status": "ACTIVE",
+      "maxMachines": 1
+    },
+    "relationships": {
+      "machines": { "meta": { "count": 1 } }
+    }
+  },
+  "meta": {
+    "valid": false,
+    "code": "FINGERPRINT_SCOPE_MISMATCH",
+    "detail": "License fingerprint does not match the current machine"
+  }
+}

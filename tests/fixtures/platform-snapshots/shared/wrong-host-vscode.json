@@ -1,0 +1,8 @@
+{
+  "_description": "host=vscode — extension must exit regardless of license validity",
+  "schema_version": "v0.1.0",
+  "timestamp": "2026-06-21T14:58:23.249Z",
+  "runtime": { "host": "vscode", "platform": "win32" },
+  "machine": { "id": "486cefd0-c6cb-42ca-8b18-4d2e3f5a6b7c" },
+  "extensions": []
+}

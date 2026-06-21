@@ -1,0 +1,12 @@
+{
+  "_description": "SSO user — Key and DirectoryIdentifier both present (Azure AD object ID)",
+  "Key": "c9a71615-1234-4abc-8def-0123456789ab",
+  "DirectoryIdentifier": "az-objectid-00000000-0000-0000-0000-aabbccddeeff",
+  "TenantKey": "1cfa0121-be38-43c1-9999-000000000000",
+  "Id": 1001,
+  "UserName": "alice@corp.onmicrosoft.com",
+  "Name": "Alice",
+  "Surname": "Smith",
+  "EmailAddress": "alice@corp.com",
+  "IsActive": true
+}

@@ -1,0 +1,26 @@
+{
+  "_description": "Valid license, plus policy — meta.valid=true, 4 entitlements, 1 floating machine",
+  "_http_status": 200,
+  "data": {
+    "id": "a1b2c3d4-0000-4000-8000-000000000002",
+    "type": "licenses",
+    "attributes": {
+      "expiry": "2027-06-21T00:00:00.000Z",
+      "status": "ACTIVE",
+      "maxMachines": 1
+    },
+    "relationships": {
+      "machines": { "meta": { "count": 1 } }
+    }
+  },
+  "meta": {
+    "valid": true,
+    "code": "VALID",
+    "detail": "License is valid",
+    "scope": {
+      "product": "19c1f481-a383-4e9d-8714-40459788102b",
+      "policy": "plus-policy-uuid-placeholder",
+      "fingerprint": "48:6c:ef:d0:c6:cb:42:ca"
+    }
+  }
+}

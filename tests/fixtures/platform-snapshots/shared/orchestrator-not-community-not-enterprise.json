@@ -1,0 +1,15 @@
+{
+  "_description": "Orchestrator reachable but neither community nor pro/enterprise — shared gate blocks all extensions",
+  "schema_version": "v0.1.0",
+  "timestamp": "2026-06-21T14:58:23.249Z",
+  "runtime": { "host": "uips-desktop", "platform": "win32" },
+  "machine": { "id": "486cefd0-c6cb-42ca-8b18-4d2e3f5a6b7c" },
+  "orchestrator_license": {
+    "available": true,
+    "subscription_plan": null,
+    "subscription_code": null,
+    "is_community": false,
+    "is_pro_or_enterprise": false
+  },
+  "extensions": []
+}

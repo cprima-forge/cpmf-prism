@@ -1,0 +1,36 @@
+{
+  "_description": "Enterprise user on uips-desktop with plus policy — 4 uisor entitlements, no PDF/LLM",
+  "schema_version": "v0.1.0",
+  "timestamp": "2026-06-21T14:58:23.249Z",
+  "runtime": { "host": "uips-desktop", "platform": "win32" },
+  "machine": { "id": "486cefd0-c6cb-42ca-8b18-4d2e3f5a6b7c" },
+  "orchestrator_license": {
+    "available": true,
+    "subscription_plan": "Enterprise",
+    "subscription_code": "ENT",
+    "is_community": false,
+    "is_pro_or_enterprise": true,
+    "current_user": {
+      "key": "c9a71615-1234-4abc-8def-0123456789ab",
+      "directory_identifier": "az-objectid-abc123",
+      "tenant_key": "1cfa0121-be38-43c1-9999-000000000000",
+      "username": "alice@corp.com",
+      "id": 1001
+    }
+  },
+  "extensions": [{
+    "id": "cpmforge.cpmf-uisor",
+    "version": "0.5.0",
+    "license": {
+      "valid": true,
+      "expires_at": "2027-06-21T00:00:00.000Z",
+      "source": "api",
+      "entitlements": [
+        "uisor.parse",
+        "uisor.render",
+        "uisor.viewer-search",
+        "uisor.generate-markdown"
+      ]
+    }
+  }]
+}

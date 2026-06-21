@@ -1,0 +1,9 @@
+{
+  "_description": "Machine activation failed — license already at maxMachines limit",
+  "_http_status": 422,
+  "errors": [{
+    "title": "Unprocessable Entity",
+    "detail": "Machine limit has been reached for license",
+    "code": "MACHINE_LIMIT_EXCEEDED"
+  }]
+}

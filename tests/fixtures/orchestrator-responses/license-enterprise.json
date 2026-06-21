@@ -1,0 +1,9 @@
+{
+  "_description": "Enterprise Orchestrator license — IsProOrEnterprise=true",
+  "IsRegistered": true,
+  "IsCommunity": false,
+  "IsProOrEnterprise": true,
+  "SubscriptionCode": "ENT",
+  "SubscriptionPlan": "Enterprise",
+  "IsExpired": false
+}

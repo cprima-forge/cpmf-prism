@@ -1,0 +1,9 @@
+{
+  "_description": "Orchestrator not registered — IsRegistered=false, extension must exit",
+  "IsRegistered": false,
+  "IsCommunity": false,
+  "IsProOrEnterprise": false,
+  "SubscriptionCode": null,
+  "SubscriptionPlan": null,
+  "IsExpired": false
+}

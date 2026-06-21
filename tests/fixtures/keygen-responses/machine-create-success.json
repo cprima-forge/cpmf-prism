@@ -1,0 +1,12 @@
+{
+  "_description": "Machine activation succeeded — HTTP 201, data.id contains new machine UUID",
+  "_http_status": 201,
+  "data": {
+    "id": "mach-0000-0000-0000-000000000002",
+    "type": "machines",
+    "attributes": {
+      "fingerprint": "48:6c:ef:d0:c6:cb:42:ca",
+      "name": "debug-machine"
+    }
+  }
+}

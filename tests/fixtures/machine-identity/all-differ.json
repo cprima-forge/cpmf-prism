@@ -1,0 +1,11 @@
+{
+  "_description": "All 3 sources differ — no majority consensus, fallback required",
+  "sources": {
+    "registry": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "program_data": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+    "local_app_data": "cccccccc-cccc-4ccc-8ccc-cccccccccccc"
+  },
+  "hklm_reachable": true,
+  "expected_consensus": null,
+  "_note": "Implementation should fall back to generating a new UUID and writing to all stores"
+}

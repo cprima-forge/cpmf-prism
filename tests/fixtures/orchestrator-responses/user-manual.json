@@ -1,0 +1,12 @@
+{
+  "_description": "Manually provisioned user — DirectoryIdentifier null, no SSO",
+  "Key": "c9a71615-1234-4abc-8def-0123456789ab",
+  "DirectoryIdentifier": null,
+  "TenantKey": "1cfa0121-be38-43c1-9999-000000000000",
+  "Id": 7860197,
+  "UserName": "cprior@gmail.com",
+  "Name": "Christian",
+  "Surname": "Prior-Mamulyar",
+  "EmailAddress": "cprior@gmail.com",
+  "IsActive": true
+}

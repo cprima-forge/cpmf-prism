@@ -1,0 +1,21 @@
+{
+  "_description": "License expired — meta.valid=false, code=EXPIRED",
+  "_http_status": 200,
+  "data": {
+    "id": "a1b2c3d4-0000-4000-8000-000000000003",
+    "type": "licenses",
+    "attributes": {
+      "expiry": "2026-01-01T00:00:00.000Z",
+      "status": "EXPIRED",
+      "maxMachines": 1
+    },
+    "relationships": {
+      "machines": { "meta": { "count": 0 } }
+    }
+  },
+  "meta": {
+    "valid": false,
+    "code": "EXPIRED",
+    "detail": "License is expired"
+  }
+}

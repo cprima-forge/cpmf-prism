@@ -1,0 +1,18 @@
+{
+  "_description": "sig field corrupted — HMAC verification fails → tampered=true",
+  "_eval_date": "2026-06-21T14:58:23.249Z",
+  "record": {
+    "trialStart": "2026-06-06T10:00:00.000Z",
+    "machineId": "486cefd0-c6cb-42ca-8b18-4d2e3f5a6b7c",
+    "sig": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "expected_status": {
+    "active": false,
+    "daysRemaining": 0,
+    "daysElapsed": 15,
+    "trialStart": "2026-06-06T10:00:00.000Z",
+    "tampered": true,
+    "tamperedSources": ["sig-invalid"]
+  },
+  "_note": "sig is all-zeros — HMAC-SHA256 will not match; extension should treat as tampered"
+}

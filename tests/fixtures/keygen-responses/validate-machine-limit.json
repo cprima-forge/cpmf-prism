@@ -1,0 +1,21 @@
+{
+  "_description": "Machine limit reached — code=MACHINE_LIMIT_EXCEEDED, maxMachines=1, count=1",
+  "_http_status": 200,
+  "data": {
+    "id": "a1b2c3d4-0000-4000-8000-000000000005",
+    "type": "licenses",
+    "attributes": {
+      "expiry": "2027-06-21T00:00:00.000Z",
+      "status": "ACTIVE",
+      "maxMachines": 1
+    },
+    "relationships": {
+      "machines": { "meta": { "count": 1 } }
+    }
+  },
+  "meta": {
+    "valid": false,
+    "code": "MACHINE_LIMIT_EXCEEDED",
+    "detail": "License machine limit has been exceeded"
+  }
+}

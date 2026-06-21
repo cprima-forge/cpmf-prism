@@ -1,0 +1,11 @@
+{
+  "_description": "Registry null (HKLM not reachable); ProgramData and LocalAppData agree — consensus from 2",
+  "sources": {
+    "registry": null,
+    "program_data": "486cefd0-c6cb-42ca-8b18-4d2e3f5a6b7c",
+    "local_app_data": "486cefd0-c6cb-42ca-8b18-4d2e3f5a6b7c"
+  },
+  "hklm_reachable": false,
+  "expected_consensus": "486cefd0-c6cb-42ca-8b18-4d2e3f5a6b7c",
+  "expected_fingerprint": "48:6C:EF:D0:C6:CB:42:CA"
+}

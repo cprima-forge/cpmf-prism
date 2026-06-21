@@ -1,0 +1,11 @@
+{
+  "_description": "All sources empty / null — first run, generate new UUID",
+  "sources": {
+    "registry": null,
+    "program_data": null,
+    "local_app_data": null
+  },
+  "hklm_reachable": true,
+  "expected_consensus": null,
+  "_note": "Implementation must generate a new UUID v4 and persist to all available stores"
+}

@@ -1,0 +1,12 @@
+{
+  "_description": "No trial record in any store — first run, trial not yet started",
+  "record": null,
+  "expected_status": {
+    "active": false,
+    "daysRemaining": 14,
+    "daysElapsed": 0,
+    "trialStart": null,
+    "tampered": false,
+    "tamperedSources": []
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "_description": "One machine activated — fingerprint matches current machine",
+  "_http_status": 200,
+  "data": [{
+    "id": "mach-0000-0000-0000-000000000001",
+    "type": "machines",
+    "attributes": {
+      "fingerprint": "48:6c:ef:d0:c6:cb:42:ca",
+      "name": "debug-machine"
+    }
+  }]
+}

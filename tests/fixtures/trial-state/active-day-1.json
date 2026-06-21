@@ -1,0 +1,18 @@
+{
+  "_description": "Trial started today — day 1, 14 days remaining (TRIAL_DAYS=14)",
+  "_eval_date": "2026-06-21T14:58:23.249Z",
+  "record": {
+    "trialStart": "2026-06-21T10:00:00.000Z",
+    "machineId": "486cefd0-c6cb-42ca-8b18-4d2e3f5a6b7c",
+    "sig": "__recompute_in_test__"
+  },
+  "expected_status": {
+    "active": true,
+    "daysRemaining": 14,
+    "daysElapsed": 0,
+    "trialStart": "2026-06-21T10:00:00.000Z",
+    "tampered": false,
+    "tamperedSources": []
+  },
+  "_note": "sig must be computed as HMAC-SHA256(machineId, JSON({trialStart, machineId}))"
+}

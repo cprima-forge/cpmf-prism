@@ -1,0 +1,16 @@
+{
+  "_description": "All 10 entitlement codes as Keygen objects — response from GET /entitlements",
+  "_http_status": 200,
+  "data": [
+    { "id": "ent-0001", "type": "entitlements", "attributes": { "code": "uisor.parse",             "name": "Parse .objects/ directory tree into structured inventory" } },
+    { "id": "ent-0002", "type": "entitlements", "attributes": { "code": "uisor.render",            "name": "Render Object Repository viewer panel in the sidebar" } },
+    { "id": "ent-0003", "type": "entitlements", "attributes": { "code": "uisor.viewer-search",     "name": "Search and filter within the viewer panel" } },
+    { "id": "ent-0004", "type": "entitlements", "attributes": { "code": "uisor.generate-markdown", "name": "Export inventory as a Markdown document" } },
+    { "id": "ent-0005", "type": "entitlements", "attributes": { "code": "uisor.generate-pdf",      "name": "Export inventory as a PDF document" } },
+    { "id": "ent-0006", "type": "entitlements", "attributes": { "code": "uisor.export-for-llm",    "name": "Export inventory in LLM-friendly structured format" } },
+    { "id": "ent-0007", "type": "entitlements", "attributes": { "code": "semver.bump",             "name": "Bump version according to semver rules" } },
+    { "id": "ent-0008", "type": "entitlements", "attributes": { "code": "semver.from-commits",     "name": "Derive next version from conventional commit history" } },
+    { "id": "ent-0009", "type": "entitlements", "attributes": { "code": "semver.to-commit-msg",    "name": "Write version bump as a conventional commit message" } },
+    { "id": "ent-0010", "type": "entitlements", "attributes": { "code": "semver.git-buddy",        "name": "Git workflow helper for version tagging and branching" } }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "_description": "License key not found — code=NOT_FOUND",
+  "_http_status": 200,
+  "data": null,
+  "meta": {
+    "valid": false,
+    "code": "NOT_FOUND",
+    "detail": "License does not exist"
+  }
+}

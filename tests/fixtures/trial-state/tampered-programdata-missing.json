@@ -1,0 +1,25 @@
+{
+  "_description": "ProgramData record deleted — Registry and LocalAppData present but ProgramData absent → tampered",
+  "_eval_date": "2026-06-21T14:58:23.249Z",
+  "stores": {
+    "registry": {
+      "trialStart": "2026-06-11T10:00:00.000Z",
+      "machineId": "486cefd0-c6cb-42ca-8b18-4d2e3f5a6b7c",
+      "sig": "__recompute_in_test__"
+    },
+    "program_data": null,
+    "local_app_data": {
+      "trialStart": "2026-06-11T10:00:00.000Z",
+      "machineId": "486cefd0-c6cb-42ca-8b18-4d2e3f5a6b7c",
+      "sig": "__recompute_in_test__"
+    }
+  },
+  "expected_status": {
+    "active": true,
+    "daysRemaining": 4,
+    "daysElapsed": 10,
+    "trialStart": "2026-06-11T10:00:00.000Z",
+    "tampered": true,
+    "tamperedSources": ["ProgramData-missing"]
+  }
+}
