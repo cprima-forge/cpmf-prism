@@ -65,9 +65,8 @@ function collectCpmfExtensions(license: ValidationResult | null): CpmfExtension[
                 id,
                 version,
                 keygen_license: (isThis && license) ? {
-                    valid:        license.valid,
-                    expires_at:   license.expiry ?? null,
-                    entitlements: [],
+                    valid:      license.valid,
+                    expires_at: license.expiry ?? null,
                 } : null,
             };
         });

@@ -77,10 +77,9 @@ const SCHEMA = {
           license: {
             type: 'object', required: ['valid'],
             properties: {
-              valid:        { type: 'boolean' },
-              expires_at:   { type: ['string', 'null'], format: 'date-time' },
-              source:       { type: 'string', enum: ['api', 'file'] },
-              entitlements: { type: 'array', items: { type: 'string' } },
+              valid:      { type: 'boolean' },
+              expires_at: { type: ['string', 'null'], format: 'date-time' },
+              source:     { type: 'string', enum: ['api', 'file'] },
             },
             additionalProperties: false,
           },
@@ -148,10 +147,9 @@ export function buildSchemaSnapshot(s: RuntimeSnapshot): object {
             version: e.version,
             ...(e.keygen_license ? {
                 license: {
-                    valid:        e.keygen_license.valid,
-                    expires_at:   e.keygen_license.expires_at ?? null,
-                    source:       'api' as const,
-                    entitlements: (e.keygen_license.entitlements ?? []) as string[],
+                    valid:      e.keygen_license.valid,
+                    expires_at: e.keygen_license.expires_at ?? null,
+                    source:     'api' as const,
                 },
             } : {}),
         })),

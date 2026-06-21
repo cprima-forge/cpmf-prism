@@ -2,7 +2,7 @@
   "name": "cpmf-keygen-spike",
   "displayName": "CPMForge License Spike",
   "description": "Keygen.sh license enforcement + UiPath Orchestrator API integration spike.",
-  "version": "0.1.41",
+  "version": "0.1.42",
   "publisher": "cpmforge",
   "repository": {
     "type": "git",

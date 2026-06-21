@@ -8,6 +8,9 @@
 
   "properties": {
 
+    "$comment": { "type": "string" },
+    "_description": { "type": "string", "description": "Human-readable fixture description — test use only" },
+
     "schema_version": {
       "type": "string",
       "const": "v0.1.0"

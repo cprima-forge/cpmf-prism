@@ -108,10 +108,3 @@ export async function getOrchestratorData(
 
     return { license, user };
 }
-
-// Keep backwards-compat shim for any remaining callers
-export async function getOrchestratorLicense(
-    log: (msg: string) => void,
-): Promise<OrchestratorLicense> {
-    return (await getOrchestratorData(log)).license;
-}

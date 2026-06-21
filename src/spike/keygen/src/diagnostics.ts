@@ -19,7 +19,6 @@ export interface CpmfExtension {
     keygen_license: {
         valid: boolean;
         expires_at: string | null;
-        entitlements: unknown[];
     } | null;
 }
 
@@ -158,7 +157,6 @@ export function snapshotToText(s: RuntimeSnapshot): string {
         `Platform     : ${s.platform}  hostname=${s.hostname}`,
         `Node         : ${s.nodeVersion}  VSCode=${s.vscodeVersion}`,
         ...s.extensions.map(e => `Extension    : ${e.id}  v${e.version}  licensed=${e.keygen_license?.valid ?? 'n/a'}`),
-        `Host         : ${s.host ?? 'unknown'}`,
         '',
         '--- Machine Identity ---',
         `ID           : ${s.machine.id}`,
