@@ -11,6 +11,7 @@ build/
 
 # Node / VS Code extension
 node_modules/
+package-lock.json
 *.vsix
 out/
 dist/
