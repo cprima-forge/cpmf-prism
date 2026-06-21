@@ -1,0 +1,275 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cprima-forge.github.io/cpmf-prism/schemas/uipath-object-repository.schema.json",
+  "title": "UiPath Object Repository Inventory",
+  "description": "Inventory of UiPath Studio UI descriptor objects discovered from a project's .objects/ directory tree. Schema version v0.1.2. Covers ScreenEntry (descriptor V2) and ElementEntry (descriptor V6).",
+  "type": "object",
+  "required": ["schema_version", "entries"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "v0.1.2",
+      "description": "Identifies the inventory format version."
+    },
+    "project": {
+      "oneOf": [{ "$ref": "#/$defs/project_meta" }, { "type": "null" }]
+    },
+    "library": {
+      "oneOf": [{ "$ref": "#/$defs/library_meta" }, { "type": "null" }]
+    },
+    "entries": {
+      "type": "array",
+      "description": "Flat list of all Screen and Element entries discovered in the project.",
+      "items": { "$ref": "#/$defs/entry" }
+    }
+  },
+  "$defs": {
+    "project_meta": {
+      "type": "object",
+      "description": "Metadata from project.json.",
+      "properties": {
+        "name":                  { "type": "string" },
+        "path":                  { "type": "string" },
+        "project_id":            { "type": "string" },
+        "version":               { "type": "string" },
+        "studio_version":        { "type": "string" },
+        "target_framework":      { "type": "string" },
+        "ui_automation_version": { "type": ["string", "null"] }
+      }
+    },
+    "library_meta": {
+      "type": "object",
+      "description": "Metadata from .objects/.metadata (Library node).",
+      "properties": {
+        "id":         { "type": "string" },
+        "created":    { "type": "string" },
+        "created_by": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "reference": {
+      "type": ["string", "null"],
+      "description": "Globally unique object identity: '<library-prefix>/<object-id>'. Null for library root.",
+      "examples": ["V_ng50nGIEKpXzDH5qCdTg/gS2ZfV8_gEOlIXinj2BKrQ"]
+    },
+    "iso8601_or_null": {
+      "type": ["string", "null"],
+      "examples": ["2024-11-07T20:55:29.2741313Z"]
+    },
+    "string_list_or_null": {
+      "type": ["array", "null"],
+      "items": { "type": "string" }
+    },
+    "screenshot_filename": {
+      "type": ["string", "null"],
+      "description": "Basename of screenshot in .screenshots/. Pattern: 32 hex chars + extension.",
+      "pattern": "^[0-9a-f]{32}\\.(png|jpg|jpeg)$",
+      "examples": ["268b13b9f56be8ccaa9ea173292a50bc.png"]
+    },
+    "uix_selector": {
+      "type": "string",
+      "description": "UiPath UIX selector XML fragment or parameterized string.Format expression.",
+      "examples": ["<html app='chrome.exe' />", "[string.Format(\"<html title='{0}' />\", windowTitle)]"]
+    },
+    "variable_decl": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name":    { "type": "string" },
+        "default": { "type": "string", "default": "*" }
+      }
+    },
+    "audit_fields": {
+      "description": "Audit metadata present on all entry types.",
+      "type": "object",
+      "properties": {
+        "created":    { "$ref": "#/$defs/iso8601_or_null" },
+        "updated":    { "$ref": "#/$defs/iso8601_or_null" },
+        "created_by": { "$ref": "#/$defs/string_list_or_null" },
+        "updated_by": { "$ref": "#/$defs/string_list_or_null" }
+      }
+    },
+    "screen_entry": {
+      "type": "object",
+      "description": "UiPath Screen descriptor. Adapter version V2. XML root: ObjectRepositoryScreenData / TargetApp.",
+      "required": ["type", "reference", "app_name", "app_version", "screen_name", "url", "status", "selector"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "screen"
+        },
+        "reference":         { "$ref": "#/$defs/reference" },
+        "parent_ref":        { "$ref": "#/$defs/reference",
+          "description": "Reference to the parent AppVersion node." },
+        "path": {
+          "type": "string",
+          "description": "Slash-separated logical path: App/Version/Screen.",
+          "examples": ["Chrome/130.0/Generic"]
+        },
+        "app_name":    { "type": "string", "examples": ["Chrome"] },
+        "app_version": { "type": "string", "examples": ["130.0"] },
+        "screen_name": { "type": "string", "examples": ["Generic"] },
+        "url": {
+          "type": "string",
+          "description": "Application URL matched at automation time. May be parameterized with [varName] or string.Format syntax.",
+          "examples": ["chrome://newtab/", "[baseUrl]/login"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["hardcoded", "parameterized"],
+          "description": "hardcoded = literal URL. parameterized = contains variable placeholder."
+        },
+        "variable_name": {
+          "type": ["string", "null"],
+          "description": "Variable name when status=parameterized (V2 [varName] syntax). Null when hardcoded."
+        },
+        "selector": {
+          "$ref": "#/$defs/uix_selector",
+          "description": "Top-level window/browser selector (Selector attribute on TargetApp)."
+        },
+        "descriptor_version": {
+          "type": "string",
+          "description": "UiPath Object Repository descriptor version as stored in .metadata (e.g. 'V1', 'V2'). Adapter V2 handles formats V1 and V2.",
+          "examples": ["V1", "V2"]
+        },
+        "screenshot":         { "$ref": "#/$defs/screenshot_filename" },
+        "screenshot_width":   { "type": ["integer", "null"], "minimum": 1 },
+        "screenshot_height":  { "type": ["integer", "null"], "minimum": 1 },
+        "declared_variables": {
+          "type": ["array", "null"],
+          "description": "ObjectRepositoryVariableData entries declared on this screen.",
+          "items": { "$ref": "#/$defs/variable_decl" }
+        },
+        "depth": {
+          "type": "integer",
+          "const": 2,
+          "description": "Hierarchy depth: App=0, Version=1, Screen=2."
+        },
+        "created":    { "$ref": "#/$defs/iso8601_or_null" },
+        "updated":    { "$ref": "#/$defs/iso8601_or_null" },
+        "created_by": { "$ref": "#/$defs/string_list_or_null" },
+        "updated_by": { "$ref": "#/$defs/string_list_or_null" }
+      }
+    },
+    "element_entry": {
+      "type": "object",
+      "description": "UiPath Element descriptor. Adapter version V6. XML root: ObjectRepositoryTargetData / TargetAnchorable.",
+      "required": ["type", "reference", "app_name", "app_version", "screen_name", "element_name", "search_steps", "has_image", "has_cv"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "element"
+        },
+        "reference":  { "$ref": "#/$defs/reference" },
+        "parent_ref": { "$ref": "#/$defs/reference",
+          "description": "Reference to parent Screen or parent Element (nested elements)." },
+        "path": {
+          "type": "string",
+          "description": "Slash-separated logical path: App/Version/Screen/Element.",
+          "examples": ["Chrome/130.0/Generic/PageTabList"]
+        },
+        "app_name":     { "type": "string" },
+        "app_version":  { "type": "string" },
+        "screen_name":  { "type": "string" },
+        "element_name": {
+          "type": "string",
+          "description": "Human-readable descriptor name shown in UiPath Studio Object Repository panel.",
+          "examples": ["PageTabList", "Email", "InputFields"]
+        },
+        "element_type": {
+          "type": "string",
+          "description": "UiAutomation control type (ElementType attribute).",
+          "examples": ["TabPage", "InputBox", "Button"]
+        },
+        "activity_type": {
+          "type": "string",
+          "description": "UiPath activity hint stored in <x:String x:Key=\"ActivityType\">. 'None' when unset.",
+          "examples": ["None", "Click", "TypeInto"]
+        },
+        "search_steps": {
+          "type": "string",
+          "description": "Comma-separated targeting strategies. First token is primary.",
+          "examples": ["Selector", "Selector, Image", "Selector, Image, CV"]
+        },
+        "scope_selector": {
+          "$ref": "#/$defs/uix_selector",
+          "description": "ScopeSelectorArgument: narrowed window/browser scope for evaluation of full_selector."
+        },
+        "full_selector": {
+          "$ref": "#/$defs/uix_selector",
+          "description": "FullSelectorArgument: element selector relative to scope_selector."
+        },
+        "browser_url": {
+          "type": "string",
+          "description": "BrowserURL attribute — informational only, not used for targeting.",
+          "examples": ["newtab", "https://rpachallenge.com/"]
+        },
+        "fuzzy_selector": {
+          "type": "string",
+          "description": "FuzzySelectorArgument — fuzzy-match variant. Empty string when absent."
+        },
+        "has_image": {
+          "type": "boolean",
+          "description": "True when ImageBase64 attribute is present and non-empty (image fallback capture exists)."
+        },
+        "has_cv": {
+          "type": "boolean",
+          "description": "True when CVScreenId attribute is present and non-empty (Computer Vision descriptor attached)."
+        },
+        "cv_type": {
+          "type": "string",
+          "description": "CvType attribute value. Empty string when has_cv=false.",
+          "examples": ["", "InputBox"]
+        },
+        "visibility": {
+          "type": "string",
+          "description": "Visibility requirement enforced before interaction (Visibility attribute).",
+          "examples": ["Interactive", "Visible", "Any", ""]
+        },
+        "wait_for_ready": {
+          "type": "string",
+          "description": "WaitForReadyArgument value. Empty string = use activity default.",
+          "examples": ["", "Interactive", "Complete", "None"]
+        },
+        "scope_variables": {
+          "type": "array",
+          "description": "Variable names referenced in scope_selector placeholders [varName].",
+          "items": { "type": "string" }
+        },
+        "selector_variables": {
+          "type": "array",
+          "description": "Variable names referenced in full_selector placeholders [varName].",
+          "items": { "type": "string" }
+        },
+        "declared_variables": {
+          "type": ["array", "null"],
+          "description": "ObjectRepositoryVariableData entries declared on this element.",
+          "items": { "$ref": "#/$defs/variable_decl" }
+        },
+        "descriptor_version": {
+          "type": "string",
+          "description": "UiPath Object Repository descriptor version as stored in .metadata (e.g. 'V4', 'V5', 'V6'). Adapter V6 handles V4/V5/V6 formats.",
+          "examples": ["V4", "V5", "V6"]
+        },
+        "screenshot":         { "$ref": "#/$defs/screenshot_filename" },
+        "screenshot_width":   { "type": ["integer", "null"], "minimum": 1 },
+        "screenshot_height":  { "type": ["integer", "null"], "minimum": 1 },
+        "depth": {
+          "type": "integer",
+          "minimum": 3,
+          "description": "Hierarchy depth: App=0, Version=1, Screen=2, Element=3+. Nested elements have depth > 3."
+        },
+        "created":    { "$ref": "#/$defs/iso8601_or_null" },
+        "updated":    { "$ref": "#/$defs/iso8601_or_null" },
+        "created_by": { "$ref": "#/$defs/string_list_or_null" },
+        "updated_by": { "$ref": "#/$defs/string_list_or_null" }
+      }
+    },
+    "entry": {
+      "description": "Discriminated union on the 'type' field. 'screen' = V2 TargetApp. 'element' = V6 TargetAnchorable.",
+      "oneOf": [
+        { "$ref": "#/$defs/screen_entry" },
+        { "$ref": "#/$defs/element_entry" }
+      ]
+    }
+  }
+}
