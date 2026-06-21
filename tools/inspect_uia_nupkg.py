@@ -32,21 +32,42 @@ def _log(msg: str) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Input resolution
+# Input resolution — supports .nupkg files AND extracted package directories
 # ---------------------------------------------------------------------------
 
-def _collect_nupkgs(sources: list[str]) -> list[Path]:
+def _is_extracted_pkg_dir(p: Path) -> bool:
+    """True if p looks like an extracted NuGet package (has lib/ + .nuspec, no .nupkg)."""
+    return (p.is_dir()
+            and (p / "lib").is_dir()
+            and any(p.glob("*.nuspec"))
+            and not any(p.glob("*.nupkg")))
+
+
+def _collect_sources(sources: list[str]) -> list[Path]:
+    """Return list of Paths — each is either a .nupkg file or an extracted package dir."""
     found: list[Path] = []
     for src in sources:
         p = Path(src)
         if p.is_file() and p.suffix.lower() == ".nupkg":
+            if "uiautomation.activities" in p.name.lower():
+                found.append(p)
+        elif _is_extracted_pkg_dir(p):
+            # single extracted package dir passed directly
             found.append(p)
         elif p.is_dir():
+            # recurse: find .nupkg files
             for nupkg in sorted(p.rglob("*.nupkg")):
                 if "uiautomation.activities" in nupkg.name.lower():
                     found.append(nupkg)
+            # recurse: find extracted package dirs (version subdirs with lib/ + nuspec)
+            for child in sorted(p.rglob("lib")):
+                parent = child.parent
+                if _is_extracted_pkg_dir(parent):
+                    nuspec_names = [f.name.lower() for f in parent.glob("*.nuspec")]
+                    if any("uiautomation.activities" in n for n in nuspec_names):
+                        found.append(parent)
         else:
-            _log(f"WARNING: source not found or not a nupkg/dir: {src}")
+            _log(f"WARNING: source not found or unrecognised: {src}")
     # deduplicate preserving order
     seen: set[Path] = set()
     result: list[Path] = []
@@ -249,48 +270,73 @@ def _version_sort_key(ver: str) -> tuple:
 # Main scan
 # ---------------------------------------------------------------------------
 
+def _read_from_nupkg(path: Path) -> tuple[str, str, bytes] | None:
+    """Read (pkg_ver, dll_entry, dll_bytes) from a .nupkg zip file."""
+    with zipfile.ZipFile(path, "r") as zf:
+        names = zf.namelist()
+        nuspec_entries = [e for e in names if e.endswith(".nuspec")]
+        pkg_ver = _extract_package_version(zf.read(nuspec_entries[0])) if nuspec_entries else "unknown"
+        dll_entry = _pick_dll_entry(names)
+        if not dll_entry:
+            return None
+        return pkg_ver, dll_entry, zf.read(dll_entry)
+
+
+def _read_from_extracted(path: Path) -> tuple[str, str, bytes] | None:
+    """Read (pkg_ver, dll_entry, dll_bytes) from an extracted package directory."""
+    nuspec_files = list(path.glob("*.nuspec"))
+    pkg_ver = _extract_package_version(nuspec_files[0].read_bytes()) if nuspec_files else "unknown"
+    # find DLL in priority order
+    for candidate in _DLL_PRIORITY:
+        dll_path = path / candidate.replace("/", "\\")
+        if not dll_path.exists():
+            dll_path = path / candidate  # forward slash
+        if dll_path.exists():
+            return pkg_ver, candidate, dll_path.read_bytes()
+    # fallback: any matching name in lib/
+    for dll_path in (path / "lib").rglob(_DLL_NAME):
+        rel = str(dll_path.relative_to(path)).replace("\\", "/")
+        return pkg_ver, rel, dll_path.read_bytes()
+    return None
+
+
 def scan(sources: list[str]) -> None:
     t0 = time.monotonic()
 
-    nupkgs = _collect_nupkgs(sources)
-    _log(f"found {len(nupkgs)} matching nupkg(s)")
+    pkg_sources = _collect_sources(sources)
+    _log(f"found {len(pkg_sources)} matching package(s)")
 
     print(json.dumps({
         "type": "header",
         "sources": sources,
-        "total_packages": len(nupkgs),
+        "total_packages": len(pkg_sources),
     }), flush=True)
 
     # per-package fingerprints: version_str → fingerprint dict
     per_package: dict[str, dict] = {}
 
-    for nupkg_path in nupkgs:
-        _log(f"scanning {nupkg_path.name}")
+    for src_path in pkg_sources:
+        label = src_path.name
+        _log(f"scanning {label}")
         try:
-            with zipfile.ZipFile(nupkg_path, "r") as zf:
-                names = zf.namelist()
+            if src_path.is_file():
+                result = _read_from_nupkg(src_path)
+            else:
+                result = _read_from_extracted(src_path)
 
-                # package version from nuspec
-                nuspec_entries = [e for e in names if e.endswith(".nuspec")]
-                pkg_ver = "unknown"
-                if nuspec_entries:
-                    pkg_ver = _extract_package_version(zf.read(nuspec_entries[0]))
+            if result is None:
+                _log(f"  WARNING: {_DLL_NAME} not found in {label}")
+                continue
 
-                # pick DLL
-                dll_entry = _pick_dll_entry(names)
-                if not dll_entry:
-                    _log(f"  WARNING: {_DLL_NAME} not found in {nupkg_path.name}")
-                    continue
-
-                dll_bytes = zf.read(dll_entry)
-                us_strings = _parse_us_heap(dll_bytes)
-                fp = _classify_fingerprint(us_strings)
-                fp["dll_entry"] = dll_entry
-                per_package[pkg_ver] = fp
-                _log(f"  {pkg_ver}: screen={fp['screen_versions']} element={fp['element_versions']}")
+            pkg_ver, dll_entry, dll_bytes = result
+            us_strings = _parse_us_heap(dll_bytes)
+            fp = _classify_fingerprint(us_strings)
+            fp["dll_entry"] = dll_entry
+            per_package[pkg_ver] = fp
+            _log(f"  {pkg_ver}: screen={fp['screen_versions']} element={fp['element_versions']}")
 
         except Exception as exc:
-            _log(f"  ERROR processing {nupkg_path.name}: {exc}")
+            _log(f"  ERROR processing {label}: {exc}")
 
     # Group by (screen_versions, element_versions) → descriptor sets
     groups: dict[tuple, dict] = {}
