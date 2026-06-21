@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cprima-forge.github.io/cpmf-prism/schemas/uipath-project.schema.json",
+  "title": "UiPath Project",
+  "description": "Minimal schema for project.json (authoritative file). project.uiproj, bindings.json, and entry-points.json are optional companion files; their shapes live in $defs.",
+  "type": "object",
+  "$comment": "Root object = project.json. Companion file shapes in $defs — not referenced, documentation-only.",
+
+  "required": ["name", "description", "projectVersion", "dependencies"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Project identifier. No spaces. Matches the folder/package name.",
+      "examples": ["SICMA_NPB_SelfserviceXRechnung"]
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable summary of what the project does.",
+      "examples": ["SAP entry of form-generated structured email data"]
+    },
+    "projectVersion": {
+      "type": "string",
+      "description": "Project semantic version (SemVer). Set by the developer, not Studio.",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "examples": ["0.0.1", "1.2.3"]
+    },
+    "dependencies": {
+      "type": "object",
+      "description": "NuGet package dependencies. Keys are package IDs; values are NuGet version range strings.",
+      "additionalProperties": {
+        "type": "string",
+        "description": "NuGet version range. Exact pin = '[X.Y.Z]'. Range = '[X.Y.Z, )' etc.",
+        "examples": ["[25.10.12]", "[3.5.1]", "[1.0.0, 2.0.0)"]
+      },
+      "examples": [{ "UiPath.UIAutomation.Activities": "[25.10.12]" }]
+    },
+    "designOptions": {
+      "type": "object",
+      "description": "Studio design-time settings.",
+      "properties": {
+        "modernBehavior": {
+          "type": "boolean",
+          "description": "Modern Design Experience flag. true = Coded Automation / Modern Activities. false = Classic workflow canvas.",
+          "default": false
+        }
+      }
+    },
+    "targetFramework": {
+      "type": "string",
+      "enum": ["Windows", "Cross-platform", "Legacy"],
+      "description": "Runtime target. 'Windows' = .NET 6 Windows-only. 'Cross-platform' = .NET 6 portable. 'Legacy' = .NET Framework 4.6.1.",
+      "examples": ["Windows"]
+    },
+    "schemaVersion": {
+      "type": "string",
+      "description": "project.json format version as defined by UiPath Studio.",
+      "examples": ["4.0"]
+    },
+    "projectId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Stable project identity GUID. Generated once by Studio on project creation."
+    },
+    "main": {
+      "type": "string",
+      "description": "Relative path to the main entry-point workflow file.",
+      "examples": ["Main.xaml"]
+    }
+  },
+
+  "$defs": {
+    "project_uiproj": {
+      "$comment": "Optional file: project.uiproj — legacy/IDE metadata. May not exist in all projects.",
+      "type": "object",
+      "description": "Minimal project metadata for IDE tooling (MSBuild/VS integration). Subset of project.json.",
+      "properties": {
+        "Name":        { "type": "string" },
+        "ProjectType": { "type": "string", "examples": ["Process", "Library", "Test"] },
+        "Description": { "type": "string" },
+        "MainFile":    { "type": "string", "examples": ["Main.xaml"] }
+      }
+    },
+
+    "bindings_json": {
+      "$comment": "Optional file: bindings.json — resource/connection bindings. May not exist or may have empty resources.",
+      "type": "object",
+      "description": "Resource binding declarations for Orchestrator connections (storage buckets, assets, queues).",
+      "properties": {
+        "version": {
+          "type": "string",
+          "examples": ["1.0"]
+        },
+        "resources": {
+          "type": "array",
+          "description": "List of bound resources. Empty array when no bindings declared.",
+          "items": { "type": "object" }
+        }
+      }
+    },
+
+    "entry_points_json": {
+      "$comment": "Optional file: entry-points.json — formal entry-point contract for Orchestrator. May not exist in older projects. Has its own upstream $schema at https://cloud.uipath.com/draft/2024-12/entry-point.",
+      "type": "object",
+      "description": "Machine-readable entry-point contract. Generated/updated by Studio when saving. Consumed by Orchestrator for argument discovery.",
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "const": "https://cloud.uipath.com/draft/2024-12/entry-point"
+        },
+        "entryPoints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["filePath", "uniqueId", "type"],
+            "properties": {
+              "filePath":  { "type": "string", "examples": ["Main.xaml"] },
+              "uniqueId":  { "type": "string", "format": "uuid" },
+              "type":      { "type": "string", "examples": ["process", "workflow"] },
+              "input": {
+                "type": "object",
+                "description": "JSON Schema fragment describing input arguments.",
+                "properties": {
+                  "type":       { "const": "object" },
+                  "properties": { "type": "object" },
+                  "required":   { "type": "array", "items": { "type": "string" } }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
