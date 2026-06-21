@@ -21,5 +21,7 @@
 ## Common tasks
 
 ```
-just trigger        # trigger Azure DevOps publish pipeline
+just azdo-run              # trigger publish pipeline (default spike: helloworld)
+just azdo-run myspike      # trigger publish pipeline for a different spike
+just azdo-status           # show recent pipeline run results
 ```

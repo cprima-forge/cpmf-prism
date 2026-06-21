@@ -2,19 +2,24 @@
 
 import os
 import shutil
+from pathlib import Path
 
-_AZ_FALLBACK = r"C:\Program Files\Microsoft SDKs\Azure\CLI2\wbin"
+from dotenv import load_dotenv
+
+load_dotenv(Path(__file__).parent.parent / ".env")
+
+_az_fallback = os.getenv("AZ_FALLBACK_PATH", r"C:\Program Files\Microsoft SDKs\Azure\CLI2\wbin")
 if not shutil.which("az"):
-    os.environ["PATH"] = _AZ_FALLBACK + os.pathsep + os.environ.get("PATH", "")
+    os.environ["PATH"] = _az_fallback + os.pathsep + os.environ.get("PATH", "")
 
 from azure.identity import AzureCliCredential
 from azure.devops.connection import Connection
 from msrest.authentication import BasicTokenAuthentication
 
-ORG_URL = "https://dev.azure.com/cprima"
-PROJECT = "cpmforge"
-PIPELINE_NAME = "cprima-forge.cpmf-prism"
-RESOURCE = "499b84ac-1321-427f-aa17-267ca6975798"
+ORG_URL = os.environ["AZDO_ORG_URL"]
+PROJECT = os.environ["AZDO_PROJECT"]
+PIPELINE_NAME = os.environ["AZDO_PIPELINE_NAME"]
+RESOURCE = os.environ["AZDO_RESOURCE"]
 
 
 def main():

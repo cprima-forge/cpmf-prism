@@ -9,5 +9,5 @@ dependencies = []
 dev = [
     "azure-devops>=7.1.0b4",
     "azure-identity>=1.25.3",
-    "setuptools>=82.0.1",
+    "python-dotenv>=1.2.2",
 ]

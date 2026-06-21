@@ -1,5 +1,14 @@
 trigger: none
 
+parameters:
+- name: SPIKE
+  displayName: Spike extension to publish
+  type: string
+  default: helloworld
+
+variables:
+  spike: ${{ parameters.SPIKE }}
+
 pool:
   vmImage: ubuntu-latest
 
@@ -15,5 +24,5 @@ steps:
     scriptType: pscore
     scriptLocation: inlineScript
     inlineScript: |
-      cd $(Build.SourcesDirectory)/src/spike/helloworld
+      cd $(Build.SourcesDirectory)/src/spike/$(spike)
       vsce publish --azure-credential

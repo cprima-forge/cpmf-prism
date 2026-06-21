@@ -1,4 +1,23 @@
+# secrets
 .env
-docs/nohup.out
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Node / VS Code extension
 node_modules/
 *.vsix
+out/
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# misc
+docs/nohup.out

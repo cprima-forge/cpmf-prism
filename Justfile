@@ -1,5 +1,8 @@
 default:
     @just --list
 
-trigger:
-    uv run python tools/trigger_pipeline.py
+azdo-run spike="helloworld":
+    uv run python tools/trigger_pipeline.py --spike {{spike}}
+
+azdo-status:
+    uv run python tools/pipeline_status.py
