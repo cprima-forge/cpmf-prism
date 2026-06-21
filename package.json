@@ -1,9 +1,11 @@
 {
   "name": "cpmf-prism",
   "private": true,
+  "packageManager": "pnpm@9.0.0",
   "devDependencies": {
     "@vscode/vsce": "^3.0.0",
     "eslint": "^9.0.0",
-    "markdownlint-cli2": "^0.17.0"
+    "markdownlint-cli2": "^0.17.0",
+    "typescript": "^5.4.0"
   }
 }

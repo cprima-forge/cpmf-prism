@@ -1,0 +1,67 @@
+{
+  "name": "cpmf-uisor",
+  "displayName": "CPMForge UiSOR — UiPath Object Repository Viewer",
+  "description": "Browse and inspect UiPath Studio .objects/ inventory in a sidebar panel.",
+  "version": "0.1.0",
+  "publisher": "cprima",
+  "engines": { "vscode": "^1.95.0" },
+  "categories": ["Other"],
+  "activationEvents": ["onView:cpmf-uisor.sideView"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "cpmf-uisor",
+          "title": "UiPath OR",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "cpmf-uisor": [
+        {
+          "type": "webview",
+          "id": "cpmf-uisor.sideView",
+          "name": "Object Repository"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "cpmf-uisor.refresh",
+        "title": "Refresh Inventory",
+        "icon": "$(refresh)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "cpmf-uisor.refresh",
+          "when": "view == cpmf-uisor.sideView",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src",
+    "package": "vsce package --no-dependencies"
+  },
+  "dependencies": {
+    "@cpmf/core": "workspace:*",
+    "@cpmf/license": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.95.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.4.0",
+    "@vscode/vsce": "^3.0.0"
+  }
+}

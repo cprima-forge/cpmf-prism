@@ -1,0 +1,16 @@
+{
+  "name": "@cpmf/core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared UiPath project parsing and Object Repository discovery",
+  "main": "./out/index.js",
+  "types": "./out/index.d.ts",
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.4.0"
+  }
+}
