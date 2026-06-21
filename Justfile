@@ -19,9 +19,6 @@ vsce-install spike="helloworld":
 ovsx-publish spike="helloworld":
     cd src/spike/{{spike}} && npm install && npx vsce package --no-dependencies && npx ovsx publish *.vsix -p $OVSX_TOKEN
 
-uipath-spike-deploy:
-    cp -r src/spike/uipath-spike/. "$LOCALAPPDATA/UiPath/Studio/Extensions/cpmforge.cpmf-uipath-spike-0.1.0/"
-
 entitlement-table:
     uv run --script tools/generate_entitlement_table.py > docs/entitlements.md
 
