@@ -1,0 +1,125 @@
+{
+  "name": "cpmf-keygen-spike",
+  "displayName": "CPMForge License Spike",
+  "description": "Keygen.sh license enforcement + UiPath Orchestrator API integration spike.",
+  "version": "0.1.41",
+  "publisher": "cpmforge",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cprima-forge/cpmf-prism"
+  },
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "cpmf-keygen-spike",
+          "title": "CPMForge",
+          "icon": "$(key)"
+        }
+      ]
+    },
+    "views": {
+      "cpmf-keygen-spike": [
+        {
+          "id": "cpmf-keygen-spike.runtimeView",
+          "name": "Runtime Environment",
+          "icon": "$(pulse)"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "cpmf-keygen-spike.enterKey",
+        "title": "CPMForge: Enter License Key",
+        "icon": "$(key)"
+      },
+      {
+        "command": "cpmf-keygen-spike.licenseStatus",
+        "title": "CPMForge: License Status"
+      },
+      {
+        "command": "cpmf-keygen-spike.diagnostics",
+        "title": "CPMForge: Show Runtime Environment",
+        "icon": "$(pulse)"
+      },
+      {
+        "command": "cpmf-keygen-spike.refreshTree",
+        "title": "Refresh",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "cpmf-keygen-spike.orchConnect",
+        "title": "CPMForge: Connect to Orchestrator",
+        "icon": "$(plug)"
+      },
+      {
+        "command": "cpmf-keygen-spike.copyValue",
+        "title": "CPMForge: Copy Value",
+        "icon": "$(copy)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "cpmf-keygen-spike.enterKey",
+          "when": "view == cpmf-keygen-spike.runtimeView",
+          "group": "navigation"
+        },
+        {
+          "command": "cpmf-keygen-spike.refreshTree",
+          "when": "view == cpmf-keygen-spike.runtimeView",
+          "group": "navigation"
+        },
+        {
+          "command": "cpmf-keygen-spike.diagnostics",
+          "when": "view == cpmf-keygen-spike.runtimeView",
+          "group": "navigation"
+        },
+        {
+          "command": "cpmf-keygen-spike.orchConnect",
+          "when": "view == cpmf-keygen-spike.runtimeView",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "cpmf-keygen-spike.copyValue",
+          "when": "view == cpmf-keygen-spike.runtimeView && viewItem == copyable",
+          "group": "inline"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "node esbuild.js --minify",
+    "compile": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "typecheck": "tsc -p ./ --noEmit",
+    "lint": "eslint src",
+    "package": "vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.95.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "@vscode/vsce": "^3.0.0",
+    "esbuild": "^0.28.1",
+    "eslint": "^8.0.0",
+    "typescript": "^5.4.0"
+  },
+  "dependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1"
+  }
+}

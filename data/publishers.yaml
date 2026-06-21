@@ -1,0 +1,19 @@
+publishers:
+
+  - id: cpmforge
+    display_name: CPMForge
+    canonical: true
+    vscode_publisher_prefix: cpmforge.
+    open_vsx_namespace: cpmforge
+    github_org: cprima-forge
+    keygen_account: cprima
+
+  # Reseller / OEM publishers — same Keygen product and entitlement codes,
+  # different VS Code publisher prefix. Add entries here to include their
+  # extensions in the environment scanner's discovery sweep.
+  # - id: acme-rpa
+  #   display_name: ACME RPA Solutions
+  #   canonical: false
+  #   vscode_publisher_prefix: acme-rpa.
+  #   open_vsx_namespace: acme-rpa
+  #   keygen_account: cprima   # entitlements still validated against canonical account

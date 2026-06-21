@@ -1,0 +1,9 @@
+# exclude from VSIX — runtime only needs out/ + package.json + LICENSE
+.vscode/**
+.github/**
+node_modules/**
+src/**
+out/**/*.map
+tsconfig.json
+eslint.config.js
+*.vsix

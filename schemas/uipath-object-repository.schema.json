@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://cprima-forge.github.io/cpmf-prism/schemas/uipath-object-repository.schema.json",
   "title": "UiPath Object Repository Inventory",
-  "description": "Inventory of UiPath Studio UI descriptor objects discovered from a project's .objects/ directory tree. Schema version v0.1.2. Covers ScreenEntry (descriptor V2) and ElementEntry (descriptor V6).",
+  "description": "Inventory of UiPath Studio UI descriptor objects discovered from a project's .objects/ directory tree. Schema version v0.1.2. Screen descriptor versions: V1 (22.x–23.x, read-only) and V2 (24.x+, full mutations via adapter_screen_V2). Element descriptor versions: V4 (22.x–23.x, read-only), V5 (intermediate), V6 (24.10.7+, full mutations via adapter_element_V6). The IsV4/IsV6 properties in UiPath.UIAutomationNext.Activities.Design.dll (present from 24.10.7) confirm the two live element descriptor formats.",
   "type": "object",
   "required": ["schema_version", "entries"],
   "properties": {
@@ -128,7 +128,7 @@
         },
         "descriptor_version": {
           "type": "string",
-          "description": "UiPath Object Repository descriptor version as stored in .metadata (e.g. 'V1', 'V2'). Adapter V2 handles formats V1 and V2.",
+          "description": "Version attribute on the TargetApp XML element in the .content file. V1 = legacy (22.x–23.x, read-only in adapter). V2 = current (24.x+, adapter_screen_V2 supports full mutations). adapter_screen_V2.is_version_supported() returns true only for V2.",
           "examples": ["V1", "V2"]
         },
         "screenshot":         { "$ref": "#/$defs/screenshot_filename" },
@@ -247,7 +247,7 @@
         },
         "descriptor_version": {
           "type": "string",
-          "description": "UiPath Object Repository descriptor version as stored in .metadata (e.g. 'V4', 'V5', 'V6'). Adapter V6 handles V4/V5/V6 formats.",
+          "description": "Version attribute on the TargetAnchorable XML element in the .content file. V4 = legacy (22.x–23.x). V5 = intermediate. V6 = current (24.10.7+, adapter_element_V6 supports full mutations; IsV4/IsV6 runtime checks present in Design DLL). adapter_element_V6.is_version_supported() returns true only for V6.",
           "examples": ["V4", "V5", "V6"]
         },
         "screenshot":         { "$ref": "#/$defs/screenshot_filename" },

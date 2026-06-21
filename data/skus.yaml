@@ -1,0 +1,94 @@
+skus:
+
+  - id: cpmf-uisor-trial-30d
+    display_name: "UiSOR Trial"
+    extension: cpmforge.cpmf-uisor
+    policy: trial
+    duration_days: 30
+    machines: 1
+    price: free
+    _triggers_on: any
+    highlights:
+      - Parse and render Object Repository
+      - Search and filter
+      - Export to Markdown
+
+  - id: cpmf-uisor-plus-1y
+    display_name: "UiSOR Plus"
+    extension: cpmforge.cpmf-uisor
+    policy: plus
+    duration_days: 365
+    machines: 1
+    price_eur: null   # TBD
+    _triggers_on: orchestrator_pro_or_enterprise
+    highlights:
+      - Parse and render Object Repository
+      - Search and filter
+      - Export to Markdown
+
+  - id: cpmf-uisor-open-1y
+    display_name: "UiSOR Open"
+    extension: cpmforge.cpmf-uisor
+    policy: open
+    duration_days: 365
+    machines: 3
+    price: free
+    _triggers_on: orchestrator_community
+    highlights:
+      - Parse and render Object Repository
+      - Search and filter
+      - Export to Markdown
+      - PDF export
+      - LLM export
+
+  - id: cpmf-uisor-pro-1y
+    display_name: "UiSOR Pro"
+    extension: cpmforge.cpmf-uisor
+    policy: pro
+    duration_days: 365
+    machines: null    # negotiated
+    price_eur: null   # TBD
+    _status: planned
+    highlights:
+      - All Open features
+      - PDF export
+      - LLM export
+      - Future semver integration
+
+  - id: cpmf-uisor-creator-90d
+    display_name: "UiSOR Creator"
+    extension: cpmforge.cpmf-uisor
+    policy: creator
+    duration_days: 90
+    machines: 1
+    price: manual_grant
+    _triggers_on: manual_grant
+    highlights:
+      - All features
+      - For testers, multipliers, content creators
+
+  - id: cpmf-uisor-multiuser
+    display_name: "UiSOR Site License"
+    extension: cpmforge.cpmf-uisor
+    policy: multi-user
+    duration_days: 365
+    machines: null    # negotiated per deal
+    price_eur: null   # negotiated per deal
+    _status: on-demand
+    highlights:
+      - All features
+      - N machines (negotiated)
+      - Floating seats
+
+  - id: cpmf-uisor-airgapped
+    display_name: "UiSOR Airgapped"
+    extension: cpmforge.cpmf-uisor
+    policy: airgapped
+    duration_days: 365
+    machines: null    # N x .lic files issued per machine fingerprint
+    price_eur: null   # negotiated
+    _status: planned
+    highlights:
+      - All features
+      - No internet required after activation
+      - Per-machine .lic file delivery

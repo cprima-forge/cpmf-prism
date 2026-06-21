@@ -1,0 +1,18 @@
+extension_id: cpmforge.cpmf-semver
+display_name: CPMForge Semver — Semantic Versioning Tooling
+package_json: extensions/semver/package.json
+min_studio_version: "26.0.0"
+_status: planned
+
+entitlements:
+  - code: semver.bump
+    description: Bump version according to semver rules
+
+  - code: semver.from-commits
+    description: Derive next version from conventional commit history
+
+  - code: semver.to-commit-msg
+    description: Write version bump as a conventional commit message
+
+  - code: semver.git-buddy
+    description: Git workflow helper for version tagging and branching

@@ -123,6 +123,7 @@ function buildAppHtml(themeClass: string, port: number): string {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src http://127.0.0.1:${port}; img-src data: http://127.0.0.1:${port};">
 <title>UiPath OR Viewer</title>
 <style>
 :root{--bg:#fdf6e3;--bg2:#eee8d5;--body:#657b83;--faint:#93a1a1;--sol-blue:#268bd2;--sol-violet:#6c71c4;--green:#859900;--red:#dc322f}
@@ -406,14 +407,9 @@ class InventoryViewProvider implements vscode.WebviewViewProvider {
     constructor(private readonly _extensionUri: vscode.Uri, private readonly port: number) {}
 
     resolveWebviewView(webviewView: vscode.WebviewView): void {
-        webviewView.webview.options = { enableScripts: false };
+        webviewView.webview.options = { enableScripts: true };
         const themeClass = (vscode.window.activeColorTheme?.kind ?? 2) === 1 ? 'light' : 'dark';
-        // Redirect to HTTP server — scripts execute there (WebView2 blocks scripts in initial HTML)
-        webviewView.webview.html = `<!DOCTYPE html><html class="${themeClass}">
-<head><meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline';">
-<meta http-equiv="refresh" content="0; url=http://127.0.0.1:${this.port}/?t=${Date.now()}">
-</head><body style="background:var(--vscode-editor-background)"></body></html>`;
+        webviewView.webview.html = buildAppHtml(themeClass, this.port);
     }
 }
 

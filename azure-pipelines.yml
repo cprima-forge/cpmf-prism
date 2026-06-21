@@ -14,15 +14,18 @@ pool:
 
 steps:
 - script: |
-    npm install -g @vscode/vsce
-  displayName: 'Install vsce'
+    npm install -g @vscode/vsce ovsx
+  displayName: 'Install vsce and ovsx'
 
-- task: AzureCLI@2
-  displayName: 'Publish using managed identity'
-  inputs:
-    azureSubscription: marketplace-publish
-    scriptType: pscore
-    scriptLocation: inlineScript
-    inlineScript: |
-      cd $(Build.SourcesDirectory)/src/spike/$(spike)
-      vsce publish --azure-credential
+- script: |
+    cd $(Build.SourcesDirectory)/src/spike/$(spike)
+    npm install
+    vsce package --no-dependencies
+  displayName: 'Package extension (.vsix)'
+
+- script: |
+    cd $(Build.SourcesDirectory)/src/spike/$(spike)
+    ovsx publish *.vsix -p $(OVSX_TOKEN)
+  displayName: 'Publish to Open VSX'
+  env:
+    OVSX_TOKEN: $(OVSX_TOKEN)

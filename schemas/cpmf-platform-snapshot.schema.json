@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cpmforge.dev/schemas/cpmf-platform-snapshot.schema.json",
+  "title": "CPMForge Platform Snapshot",
+  "description": "Singleton snapshot per host instance (uips-desktop or vscode). machine.id is the shared fingerprint used for license validation. extensions[] enumerates all installed CPMForge extensions (publisher: cpmforge) and their license state.",
+  "type": "object",
+  "required": ["schema_version", "timestamp", "runtime", "machine", "extensions"],
+
+  "properties": {
+
+    "schema_version": {
+      "type": "string",
+      "const": "v0.1.0"
+    },
+
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+
+    "runtime": {
+      "type": "object",
+      "required": ["host"],
+      "properties": {
+        "host": {
+          "type": "string",
+          "enum": ["uips-desktop", "vscode"],
+          "description": "uips-desktop = UiPath Studio 26.x+; vscode = plain VS Code"
+        },
+        "platform":           { "type": "string", "examples": ["win32"],   "x-priority": "nice-to-have" },
+        "hostname":           { "type": "string",                          "x-priority": "nice-to-have" },
+        "vscode_api_version": { "type": "string", "examples": ["1.95.0"], "x-priority": "nice-to-have" }
+      },
+      "additionalProperties": false
+    },
+
+    "machine": {
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Consensus machine UUID — shared fingerprint used for license activation across all CPMForge extensions in this host."
+        },
+        "id_sources": {
+          "type": "object",
+          "x-priority": "nice-to-have",
+          "description": "Raw UUID values from each identity source. null if source was unreachable.",
+          "properties": {
+            "registry":       { "type": ["string", "null"] },
+            "program_data":   { "type": ["string", "null"] },
+            "local_app_data": { "type": ["string", "null"] }
+          },
+          "additionalProperties": false
+        },
+        "registry": {
+          "type": "object",
+          "x-priority": "nice-to-have",
+          "description": "HKLM registry state for machine identity.",
+          "properties": {
+            "hklm_reachable": { "type": "boolean" },
+            "machine_id":     { "type": ["string", "null"] }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "orchestrator_license": {
+      "type": "object",
+      "description": "UiPath Orchestrator license — shared across all extensions. Required when host=uips-desktop. available=false means Orchestrator unreachable — all extensions operate in crippled mode.",
+      "required": ["available"],
+      "properties": {
+        "available":            { "type": "boolean" },
+        "subscription_plan":    { "type": ["string", "null"] },
+        "subscription_code":    { "type": ["string", "null"] },
+        "is_community":         { "type": ["boolean", "null"] },
+        "is_pro_or_enterprise": { "type": ["boolean", "null"] },
+        "current_user": {
+          "type": "object",
+          "description": "Current Orchestrator user — from GET /odata/Users/UiPath.Server.Configuration.OData.GetCurrentUser. Used as informational metadata on machine activation; not the primary enforcement mechanism.",
+          "required": ["key"],
+          "properties": {
+            "key": {
+              "type": "string",
+              "format": "uuid",
+              "description": "UiPath user GUID (Key field) — primary identifier, stable under SSO"
+            },
+            "directory_identifier": {
+              "type": ["string", "null"],
+              "description": "IdP-assigned identifier (e.g. Azure AD object ID) — most stable under SSO. Null for manually provisioned users.",
+              "x-priority": "nice-to-have"
+            },
+            "tenant_key": {
+              "type": ["string", "null"],
+              "description": "Tenant GUID — scope qualifier for key uniqueness",
+              "x-priority": "nice-to-have"
+            },
+            "username": {
+              "type": ["string", "null"],
+              "description": "Display only — fragile, changes under SSO or user rename",
+              "x-priority": "nice-to-have"
+            },
+            "id": {
+              "type": ["integer", "null"],
+              "description": "Orchestrator DB row ID — informational only, tenant-local, fragile across migrations",
+              "x-priority": "nice-to-have"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "extensions": {
+      "type": "array",
+      "description": "All installed CPMForge extensions (publisher: cpmforge) in this host instance. Discovered at runtime via vscode.extensions.all filtered by publisher prefix.",
+      "items": {
+        "type": "object",
+        "required": ["id", "version"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Fully qualified extension id, e.g. cpmforge.cpmf-uisor",
+            "examples": ["cpmforge.cpmf-uisor", "cpmforge.cpmf-semver"]
+          },
+          "version": {
+            "type": "string",
+            "description": "Extension semver. Versions < 0.5.0 use per-extension license policy (pre-v0.5 tier).",
+            "examples": ["0.1.27", "0.5.0"]
+          },
+          "license": {
+            "type": "object",
+            "description": "License state for this extension. Absent if validation not yet attempted.",
+            "required": ["valid"],
+            "properties": {
+              "valid":        { "type": "boolean" },
+              "expires_at":   { "type": ["string", "null"], "format": "date-time" },
+              "source": {
+                "type": "string",
+                "enum": ["api", "file"],
+                "description": "api = validated against Keygen API; file = validated from local .lic certificate (airgapped)"
+              },
+              "entitlements": {
+                "type": "array",
+                "description": "Entitlement codes active for this license. Extension gates features against this list.",
+                "items": { "type": "string" },
+                "examples": [["uisor.parse", "uisor.render", "uisor.viewer-search"]]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+
+  },
+
+  "if": {
+    "properties": {
+      "runtime": {
+        "properties": { "host": { "const": "uips-desktop" } },
+        "required": ["host"]
+      }
+    },
+    "required": ["runtime"]
+  },
+  "then": {
+    "required": ["orchestrator_license"]
+  },
+
+  "additionalProperties": false
+}

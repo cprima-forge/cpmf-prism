@@ -1,0 +1,23 @@
+extension_id: cpmforge.cpmf-uisor
+display_name: CPMForge UiSOR — UiPath Object Repository Viewer
+package_json: extensions/uisor/package.json
+min_studio_version: "26.0.0"
+
+entitlements:
+  - code: uisor.parse
+    description: Parse .objects/ directory tree into structured inventory
+
+  - code: uisor.render
+    description: Render Object Repository viewer panel in the sidebar
+
+  - code: uisor.viewer-search
+    description: Search and filter within the viewer panel
+
+  - code: uisor.generate-markdown
+    description: Export inventory as a Markdown document
+
+  - code: uisor.generate-pdf
+    description: Export inventory as a PDF document
+
+  - code: uisor.export-for-llm
+    description: Export inventory in LLM-friendly structured format

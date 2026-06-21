@@ -1,0 +1,171 @@
+provider: keygen
+base_url: https://api.keygen.sh/v1/accounts/cprima
+account: cprima
+
+# ED25519 public key — embed this in extension TS for offline signature verification.
+# Find it: Keygen dashboard -> Account Settings -> Keys -> ED25519 Public Key
+# or: GET https://api.keygen.sh/v1/accounts/cprima/keys/ed25519
+# NOT a secret — safe to commit. Private key stays with Keygen.
+ed25519_public_key: "924139e98f65b3bf4e2f5dba6598a31e9ce8a549305baf0cfe19e892975d729c"
+
+environment:
+  id: 8887ba37-1261-4075-8866-2f457589a92a
+  name: Production
+  code: prod
+  isolationStrategy: ISOLATED
+
+product:
+  id: 19c1f481-a383-4e9d-8714-40459788102b
+  name: cpmf-prism
+  code: null
+  url: https://github.com/cprima-forge/cpmf-prism
+  platforms:
+    - windows
+
+# Host restriction — enforced in extension code at activation, not by Keygen.
+# If host != uips-desktop: exit regardless of license tier.
+# If orchestrator_license.available=false OR (is_community=false AND is_pro_or_enterprise=false): exit.
+host_restriction: uips-desktop
+
+# Entitlement codes are defined per-extension in data/extensions/*.yaml
+# Policies reference codes by string only.
+
+policies:
+  # trial — any user, time-limited 30 days, 1 machine, 1 user
+  - name: trial
+    _triggers_on: any
+    scheme: ED25519_SIGN
+    duration: 2592000  # 30 days
+    maxMachines: 1
+    maxUsers: 1
+    strict: true
+    floating: false
+    entitlements:
+      - uisor.parse
+      - uisor.render
+      - uisor.viewer-search
+      - uisor.generate-markdown
+
+  # plus — Orchestrator isProOrEnterprise=true; 1 machine, 1 user
+  - name: plus
+    _triggers_on: orchestrator_license.is_pro_or_enterprise
+    scheme: ED25519_SIGN
+    duration: 31536000  # 1 year
+    maxMachines: 1
+    maxUsers: 1
+    strict: true
+    floating: true
+    entitlements:
+      - uisor.parse
+      - uisor.render
+      - uisor.viewer-search
+      - uisor.generate-markdown
+
+  # open — Orchestrator isCommunity=true; 3 machines, 1 user; more features than plus
+  # community users -> evangelists -> enterprise pipeline
+  - name: open
+    _triggers_on: orchestrator_license.is_community
+    scheme: ED25519_SIGN
+    duration: 31536000  # 1 year
+    maxMachines: 3
+    maxUsers: 1
+    strict: true
+    floating: true
+    entitlements:
+      - uisor.parse
+      - uisor.render
+      - uisor.viewer-search
+      - uisor.generate-markdown
+      - uisor.generate-pdf
+      - uisor.export-for-llm
+
+  # pro — paid tier; everything; multi-user (planned)
+  - name: pro
+    _status: planned
+    duration: 31536000  # 1 year
+    maxUsers: null      # negotiated per deal
+    entitlements:
+      - uisor.parse
+      - uisor.render
+      - uisor.viewer-search
+      - uisor.generate-markdown
+      - uisor.generate-pdf
+      - uisor.export-for-llm
+
+  # creator — tester / multiplier / content creator; 90 days, 1 machine, 1 user
+  - name: creator
+    _triggers_on: manual_grant
+    scheme: ED25519_SIGN
+    duration: 7776000  # 90 days
+    maxMachines: 1
+    maxUsers: 1
+    strict: true
+    floating: false
+    entitlements:
+      - uisor.parse
+      - uisor.render
+      - uisor.viewer-search
+      - uisor.generate-markdown
+      - uisor.generate-pdf
+      - uisor.export-for-llm
+
+  # pre-v0.5 — per-extension tier for early adopters
+  - name: pre-v0.5
+    _triggers_on: _version_lt_0.5
+    scheme: ED25519_SIGN
+    duration: null
+    maxMachines: 3
+    strict: true
+    floating: true
+    entitlements:
+      - uisor.parse
+      - uisor.render
+      - uisor.viewer-search
+
+  # airgapped — license file checkout flow; no Keygen API at validation time
+  - name: airgapped
+    _status: planned
+    scheme: ED25519_SIGN
+    license_file_algorithm: aes-256-gcm+ed25519
+    duration: 31536000  # 1 year
+    maxMachines: 1
+    maxUsers: 1
+    strict: true
+    floating: false
+    # Activation flow (per machine — machine checkout, NOT license checkout):
+    #   1. Collect machine fingerprint from customer
+    #   2. Vendor: POST /machines/{id}/actions/check-out -> .lic file bound to that fingerprint
+    #   3. Send .lic to customer (email attachment)
+    #   4. Customer places file at fixed path; extension verifies fingerprint + ED25519 signature
+    # IMPORTANT: use machine checkout, not license checkout.
+    #   License checkout produces an unbound file that bypasses maxMachines enforcement.
+    # For N-seat deals: collect N fingerprints, issue N .lic files.
+    license_checkout: machine
+    license_file_path: "%LOCALAPPDATA%\\CPMForge\\licenses\\{extension_id}.lic"
+    entitlements:
+      - uisor.parse
+      - uisor.render
+      - uisor.viewer-search
+      - uisor.generate-markdown
+      - uisor.generate-pdf
+      - uisor.export-for-llm
+
+  # multi-user — on-demand site license
+  # seat = machine activation (not user identity)
+  # user identity stored as machine metadata only (informational, not enforced)
+  # robust under SSO: fingerprint stable even if email/IdP changes
+  - name: multi-user
+    _status: on-demand
+    scheme: ED25519_SIGN
+    duration: 31536000  # 1 year
+    maxMachines: null   # negotiated per customer; set per-license at issue time
+    maxUsers: null      # not used for enforcement — machine-based seat model
+    strict: true
+    floating: true      # allows deactivate + reactivate on new machine
+    entitlements:
+      - uisor.parse
+      - uisor.render
+      - uisor.viewer-search
+      - uisor.generate-markdown
+      - uisor.generate-pdf
+      - uisor.export-for-llm

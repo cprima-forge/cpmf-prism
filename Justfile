@@ -11,7 +11,31 @@ azdo-status:
     uv run python tools/pipeline_status.py
 
 vsce-package spike="helloworld":
-    cd src/spike/{{spike}} && npx vsce package
+    cd src/spike/{{spike}} && npm install && npx vsce package --no-dependencies
+
+vsce-install spike="helloworld":
+    cd src/spike/{{spike}} && npm install && npx vsce package --no-dependencies && code --install-extension {{spike}}-*.vsix
+
+ovsx-publish spike="helloworld":
+    cd src/spike/{{spike}} && npm install && npx vsce package --no-dependencies && npx ovsx publish *.vsix -p $OVSX_TOKEN
+
+entitlement-table:
+    uv run --script tools/generate_entitlement_table.py > docs/entitlements.md
+
+keygen-environments:
+    uv run --script tools/keygen_client.py environments
+
+keygen-check:
+    uv run python tools/keygen_client.py check
+
+keygen-create:
+    uv run python tools/keygen_client.py create --dry-run
+
+keygen-create-apply:
+    uv run python tools/keygen_client.py create
+
+keygen-markdown:
+    uv run python tools/keygen_client.py markdown
 
 lint: lint-py lint-js lint-md
 
