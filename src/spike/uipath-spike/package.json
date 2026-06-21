@@ -1,0 +1,41 @@
+{
+  "name": "cpmf-uipath-spike",
+  "displayName": "CPMForge: Service Explorer Spike",
+  "description": "Spike: dumps VS Code commands, interop services, project.json, Orchestrator license, and Object Repository inventory.",
+  "version": "0.1.0",
+  "publisher": "cpmforge",
+  "engines": { "vscode": "^1.95.0" },
+  "activationEvents": ["onStartupFinished"],
+  "main": "./extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "panel": [
+        { "id": "cpmf-uipath-spike-container", "title": "UiPath Spike", "icon": "" }
+      ]
+    },
+    "views": {
+      "cpmf-uipath-spike-container": [
+        {
+          "type": "webview",
+          "id": "cpmf-uipath-spike.mainView",
+          "name": "CPMForge Explorer"
+        }
+      ],
+      "explorer": [
+        {
+          "type": "webview",
+          "id": "cpmf-uipath-spike.sideView",
+          "name": "Object Repository"
+        }
+      ]
+    },
+    "commands": [
+      { "command": "cpmf-uipath-spike.dump",         "title": "CPMForge: Full Dump" },
+      { "command": "cpmf-uipath-spike.dumpCommands", "title": "CPMForge: Dump All Commands" },
+      { "command": "cpmf-uipath-spike.dumpInterop",  "title": "CPMForge: Dump Interop Services" },
+      { "command": "cpmf-uipath-spike.dumpProject",  "title": "CPMForge: Dump project.json + File List" },
+      { "command": "cpmf-uipath-spike.getLicense",   "title": "CPMForge: Fetch Orchestrator License" },
+      { "command": "cpmf-uipath-spike.showPanel",    "title": "CPMForge: Show Panel" }
+    ]
+  }
+}
